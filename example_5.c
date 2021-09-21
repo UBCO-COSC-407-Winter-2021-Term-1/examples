@@ -17,6 +17,7 @@ pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER;
 
 void* say_something(void *prt);
 
+int done = 0;
 
 int main()
 {
@@ -27,6 +28,7 @@ int main()
 
 	//create the lock -> error checking?
 	pthread_mutex_init(&lock, NULL);
+	pthread_cond_init(&cond1, NULL);
 
 	pthread_create( &thread_1, NULL, say_something, msg1);
 	pthread_create( &thread_2, NULL, say_something, msg2);
@@ -38,7 +40,7 @@ int main()
 	printf("Done!");
 	fflush(stdout);
 
-    pthread_mutex_destroy(&lock);
+    	pthread_mutex_destroy(&lock);
 	exit(0);
 }
 
@@ -46,19 +48,24 @@ void* say_something(void *ptr)
 {
 	pthread_mutex_lock(&lock);		//this now becomes critical section!
 
+	//printf("%s",(char*)ptr);
+
 	//check on some condition - if it is hello, wait for world....
-	if (strcmp("Hello ",(char*)ptr) == 0)
+	if (strcmp("World!",(char*)ptr) == 0)
 	{
-        printf("Waiting on condition variable cond1\n");
-		pthread_cond_wait(&cond1, &lock);
+        	printf("Waiting on condition variable cond1\n");
+		if (done == 0)		// in the case that thread 1 has already run, skip
+			pthread_cond_wait(&cond1, &lock);
 	}
 	else
 	{
 		 printf("Signaling condition variable cond1\n");
+		 done = 1;			
 		 pthread_cond_signal(&cond1);
 	}
-    printf("%s ", (char*)ptr);
+    	printf("%s ", (char*)ptr);
 	pthread_mutex_unlock(&lock);
+	
 	pthread_exit(0);
 }
 
