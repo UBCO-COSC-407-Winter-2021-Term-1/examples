@@ -1,2 +1,2 @@
-**OpenMP Examples**
+# OpenMP Examples
 
