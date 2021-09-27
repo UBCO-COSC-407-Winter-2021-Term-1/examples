@@ -4,8 +4,8 @@
 int main() {
 
 	printf("Hello sequential!\n");
-   #pragma omp parallel
-     printf("Hello parallel!\n");
+   	#pragma omp parallel
+     	printf("Hello parallel!\n");
 
-   return 0;
+   	return 0;
 }
