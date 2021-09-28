@@ -5,7 +5,7 @@
 #define NUM_THREADS 	8
 
 int *arr;
-int n = 100;					//number of enteries in array
+int n = 1000000;					//number of enteries in array
 
 void parallel_sum(int* arr, int*  global_sum);
 

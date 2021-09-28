@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <omp.h>
 
-#define NUM_THREADS 	8
+#define NUM_THREADS 	16
 
 int *arr;
-int n = 100;					//number of enteries in array
+int n = 10000000;				//number of enteries in array
 
 int serial_sum(int * arr, int size)
 {
